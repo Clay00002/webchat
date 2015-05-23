@@ -1,38 +1,23 @@
-var app 	= require('express')();
+var express = require('express')
+var app = express();
+var path	= require('path');
 var http 	= require('http').Server(app);
 var io 		= require('socket.io')(http);
 var users 	= {};
 var rooms 	= {};
+// load js
+app.use('/js',express.static(path.join(__dirname, 'js')));
+
+// load css
+app.use('/css',express.static(path.join(__dirname, 'css')));
+
+
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', function(socket){
-
-	/**
-	 * 	更新暱稱名單
-	 */
-	function update_nicknames()
-	{
-		io.sockets.emit('usernames', Object.keys(users));
-	}
-
-	/**
-	 * 	檢查是否可以發言
-	 */
-	function can_send_message()
-	{
-		console.log(socket.nickname);
-		if ( socket.nickname != 'test' )
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 
 	/**
 	 * 	新增使用者，如果有相同暱稱不可以登入

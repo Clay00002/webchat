@@ -1,0 +1,8 @@
+#show_messages { height: 700px; }
+#show_messages li { padding: 5px 10px; }
+#show_messages li:nth-child(odd) { background: #eee; }
+#meessage_box { height: auto; width:700px; float: left;}
+#chat_content { float:left; border: 1px #000 solid;}
+.error { color: red;}
+.whisper { color: green;}
+.whisper_from_me { color: gray;}
