@@ -1,8 +1,37 @@
-#show_messages { height: 700px; }
-#show_messages li { padding: 5px 10px; }
-#show_messages li:nth-child(odd) { background: #eee; }
-#meessage_box { height: auto; width:700px; float: left;}
-#chat_content { float:left; border: 1px #000 solid;}
-.error { color: red;}
-.whisper { color: green;}
-.whisper_from_me { color: gray;}
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+
+ body { font: 13px Helvetica, Arial; }
+
+
+/* 聊天室 */
+#show_messages { height: 270px; width: auto; margin-bottom: 15%; overflow-y:scroll; word-break: break-all;}
+
+/* 訊息 */
+#send_message { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+
+#send_message input { border: 0; padding: 10px; width: 80%; margin-right: .5%; }
+
+#send_message button { width: 19%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+
+#login_box button { width: 20%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+
+/*在線人數*/
+#users{ height: 270px; margin-bottom: 15%; overflow-y:scroll; word-break: break-all;}
+
+/* 登入表單 */
+#login_panel { display: none; }
+
+#login_box { background: rgb(130, 224, 255); padding: 3px; position: fixed; bottom: 0; width: 100%; }
+
+#login_panel input { border: 0; padding: 10px; width: 80%; margin-right: .5%; }
+
+#login_panel button { width: 15%; background: rgb(130, 224, 255); border: none; padding: 10px; white-space: nowrap;}
+
+#login_panel a { width: 100%%; background: rgb(130, 224, 255); border: none; display: block; margin-top: 5px; }
+
+/*時間顯示*/
+.display_time {float: right; color: gray;}
+
+.error { color: red; }
+.whisper { color: green; }
+.whisper_from_me { color: gray; }

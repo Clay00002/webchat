@@ -23,8 +23,12 @@ nick_form.submit(function(e){
                 socket.emit('new user', nick_name.val(), function(data){
                         if (data)
                         {
-                              $('#nick').hide();
-                              $('#content').show();
+                                $('#manager').hide();
+                                $('#login_panel').hide();
+                                $('#chat_content').show();
+                                $('#message_box').show();
+                                $('#login_box').hide();
+                                $('.tabs').show();
                         }
                         else
                         {
@@ -34,7 +38,7 @@ nick_form.submit(function(e){
         }
         else
         {
-                nick_error.html('請輸入暱稱');
+                nick_error.html('請輸入帳號密碼');
         }
         nick_name.val('');
 });
@@ -47,14 +51,14 @@ socket.on('update_rooms', function(){
         $('#rooms').empty();
 
         $.each(rooms, function(key, value){
-                if ( value == current_room )
-                {
-                        $('#rooms').append('<div>' + value + '</div>');
-                }
-                else
-                {
-                        $('#rooms').append('<div><a href="#" onclick="switch_room(\''+value+'\')">' + value + '</a></div>');
-                }
+                     if ( value == current_room )
+                     {
+                            $('#rooms').append('<div>' + value + '</div>');
+                     }
+                     else
+                     {
+                            $('#rooms').append('<div><a href="#" onclick="switch_room(\''+value+'\')">' + value + '</a></div>');
+                     }
         });
 });
 
@@ -85,7 +89,7 @@ $('form').submit(function(){
 
 // 大眾訊息
 socket.on('chat message', function(msg){
-        $('#show_messages').append( '<span class="msg"><b>' + msg.nick_name + ': </b>' + msg.msg + '</span><br/>');
+        $('#show_messages').append( '<span class="msg"><b>' + msg.nick_name + ': </b>' + msg.msg + '</span><span class="display_time">' + msg.display_time + '</span><br/>');
 });
 
 // 私人訊息

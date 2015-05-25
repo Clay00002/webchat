@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<script type="text/javascript">
+	var rooms = [];
+	var rooms_name = '123';
+	var nick_name = [];
+	var name = 'clay';
+	if ( !(rooms_name in rooms) )
+	{
+		if ( !name in nick_name )
+		{
+			nick_name[nick_name.length] = name;
+		}
+
+		rooms[rooms_name] = nick_name;
+	}
+	console.log(rooms);
+	function setting_userlist( room_name, nickname )
+	{
+		if ( !(room_name in rooms) )
+		{
+			rooms[rooms.length] = room_name;
+		}
+
+	}
+
+</script>
+<body>
+
+</body>
+</html>
