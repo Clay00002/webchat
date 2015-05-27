@@ -67,9 +67,9 @@ socket.on('update_rooms', function(){
  */
 socket.on('usernames', function(data){
         var html = '';
-
-        for (var i = 0; i < data.length; i++) {
-                html += data[i] + '<br/>'
+        console.log(data);
+        for (var i = 0; i < data.nick_name.length; i++) {
+                html += data.nick_name[i] + '<br/>'
         };
 
         users.html(html);
@@ -89,7 +89,7 @@ $('form').submit(function(){
 
 // 大眾訊息
 socket.on('chat message', function(msg){
-        $('#show_messages').append( '<span class="msg"><b>' + msg.nick_name + ': </b>' + msg.msg + '</span><span class="display_time">' + msg.display_time + '</span><br/>');
+        $('#show_messages').append( '<span class="msg"><b>' + msg.nick_name + ': </b>' + msg.msg + '</span><span class="display_time">' + msg.display_time + '</span> <br/>');
 });
 
 // 私人訊息
