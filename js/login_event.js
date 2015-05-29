@@ -14,12 +14,15 @@ login.submit(function(e){
                 socket.emit('new user', account.val(), function(data){
                         if (data)
                         {
+                                $('#send_message').show();
                                 $('#manager').hide();
                                 $('#login_panel').hide();
                                 $('#chat_content').show();
                                 $('#message_box').show();
                                 $('#login_box').hide();
                                 $('.tabs').show();
+                                $('#send_message').show();
+
                         }
                         else
                         {
@@ -52,6 +55,7 @@ function login_event()
 	else
 	{
 		// 顯示登入選項
+                //
 		$('#chat_content').hide();
                 $('.tabs').hide();
 		$('#login_panel').show();

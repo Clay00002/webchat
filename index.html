@@ -3,14 +3,17 @@
         <head>
                 <title>Socket.IO chat</title>
                 <link rel=stylesheet type="text/css" href="css/chat_room.css">
-                <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+                <script src="http://cdn.socket.io/socket.io-1.3.5.js"></script>
                 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         </head>
-<body>
+<body >
+        <div id="close_room">
+                <p>尚未開放</p>
+        </div>
         <div class="abgne_tab">
 
                 <ul class="tabs">
-                        <li><a href="#content">討論區</a></li>
+                        <li><a href="#content" onclick="check_chat_roon_status()">討論區</a></li>
                         <li><a href="#content2">線上名單</a></li>
                 </ul>
 
@@ -18,14 +21,12 @@
                         <p>聊天室</p>
                         <div id="chat_content">
                                 <div id="message_box" >
-                                        <div id="show_messages"></div>
-                                        <form action="" id="send_message">
-                                                <input id="m" autocomplete="off" /><button>Send</button>
-                                        </form>
+                                        <div id="show_messages" ></div>
                                 </div>
-                                <div id="login_box">
-                                	<button onclick="login_event()">登入</button>
-                                </div>
+                                <form action="" id="send_message">
+                                                <input id="m" autocomplete="off" /><button >送出</button>
+                                </form>
+
                         </div>
 
                 </div>
@@ -35,12 +36,18 @@
                         <div id ="users"></div>
                 </div>
 
+                <div id="login_box">
+                        <button onclick="login_event()">登入</button>
+                </div>
+
+
+
                 <div id="login_panel">
                         <p>登入</p>
                         <p id="nick_error" ></p>
                         <form action="" id="send_nickname">
                                 <input type="text" id="nick_name" autocomplete="off" placeholder="暱稱"/>
-                                <button>Send</button>
+                                <button>送出</button>
                         </form>
                         <a href="#">FACEBOOK 登入</a>
                         <a href="#" onclick="manager_login()">管理人員 登入</a>
@@ -51,7 +58,7 @@
                         <form action="" id="login">
                                 <input type="text" id="account" autocomplete="off" placeholder="帳號"/>
                                 <input type="password" id="password" autocomplete="off" placeholder="密碼"/>
-                                <button>Send</button>
+                                <button>送出</button>
                         </form>
                 <div>
         </div>

@@ -1,15 +1,15 @@
-var socket      = io();
+var socket      = io();  // 建立連線
 var nick_form   = $('#send_nickname');
 var nick_error  = $('#nick_error');
 var users       = $('#users');
 var nick_name   = $('#nick_name');
 
 /**
- *      更換聊天室
+ *      禁止user留言
  */
-function switch_room(room)
+function ban_user()
 {
-        socket.emit('switch_room', room);
+
 }
 
 /**
@@ -29,6 +29,8 @@ nick_form.submit(function(e){
                                 $('#message_box').show();
                                 $('#login_box').hide();
                                 $('.tabs').show();
+                                $('#send_message').show();
+
                         }
                         else
                         {
@@ -44,32 +46,20 @@ nick_form.submit(function(e){
 });
 
 /**
- * 顯示聊天室有幾間
- */
-socket.on('update_rooms', function(){
-
-        $('#rooms').empty();
-
-        $.each(rooms, function(key, value){
-                     if ( value == current_room )
-                     {
-                            $('#rooms').append('<div>' + value + '</div>');
-                     }
-                     else
-                     {
-                            $('#rooms').append('<div><a href="#" onclick="switch_room(\''+value+'\')">' + value + '</a></div>');
-                     }
-        });
-});
-
-/**
  *      顯示使用者名稱
  */
 socket.on('usernames', function(data){
         var html = '';
-        console.log(data);
-        for (var i = 0; i < data.nick_name.length; i++) {
-                html += data.nick_name[i] + '<br/>'
+        for (var i = 0; i < data.nick_name.length; i++)
+        {
+                if ( data.manager )
+                {
+                        html += data.nick_name[i] + '&nbsp<input type="checkbox" id="ban_user' + i + '" name="ban_user[]" value="' + data.socket_id[i] + '" onclick="ban_user()" ><br/>';
+                }
+                else
+                {
+                        html += data.nick_name[i] + '<br/>';
+                }
         };
 
         users.html(html);
