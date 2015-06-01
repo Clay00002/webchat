@@ -15,6 +15,8 @@ var aUser_Nick_Name	= [];	// user 暱稱
 var aRoom_Nick_Name	= [];   // 房間裡有哪些暱稱
 var aRoom_All_User	= [];   // 房間中全部的人
 
+var aBan_User		= []	// 被禁言的User
+
 var connection 	= mysql.createConnection({
 	host	: 'localhost',
 	user	: 'root',
@@ -137,9 +139,9 @@ io.on('connection', function(socket){
 	/**
 	 * 	檢查是否可以發言
 	 */
-	function can_send_message(sSocket_Id)
+	function can_send_message()
 	{
-		if ( true )
+		if ( aBan_User[socket.id] === undefined )
 		{
 			return true;
 		}
@@ -182,7 +184,7 @@ io.on('connection', function(socket){
 	 */
 	socket.on('check_login', function(sRoom_Id, callback){
 
-		if ( aUser_Nick_Name[socket.id] )
+		if ( aUser_Nick_Name[socket.id] !== undefined )
 		{
 			callback(true);
 		}
@@ -236,17 +238,29 @@ io.on('connection', function(socket){
 	});
 
 	/**
+	 * 	禁止使用者留言
+	 */
+	socket.on('ban_user', function( sSocket_Id ){
+		aBan_User[sSocket_Id] = sSocket_Id;
+	})
+
+	/**
+	 *	開放使用者留言
+	 */
+	socket.on('release_user', function( sSocket_Id ){
+		console.log(sSocket_Id);
+		delete aBan_User[sSocket_Id];
+	})
+
+	/**
 	 * 	訊息傳遞
 	 */
 	socket.on('chat message', function(sMsg, callback){
 
 		// 禁言判斷
-		if ( can_send_message(socket.id) )
+		if ( can_send_message() )
 		{
-
 			var sMsg = sMsg.trim();
-
-
 			// 避免發出空白訊息
 			if ( sMsg.length > 0 )
 			{
@@ -256,9 +270,6 @@ io.on('connection', function(socket){
 				var sDisplay_time = display.toLocaleTimeString();
 
 				io.to(aUser_Room_Id[socket.id]).emit('chat message', {msg: sMsg, nick_name: aUser_Nick_Name[socket.id], display_time: sDisplay_time});
-
-				// 全廣播
-				//io.emit('chat message', {msg: sMsg, nick_name: aUser_Nick_Name[socket.id], display_time: sDisplay_time});
 
 				var sData =
 				{
@@ -291,8 +302,6 @@ io.on('connection', function(socket){
 
   		// 將人員從名單中剔除
   		delete users[socket.id];
-
-
 
 		// 更新線上名單
   		update_nicknames();

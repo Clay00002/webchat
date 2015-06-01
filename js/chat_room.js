@@ -7,9 +7,39 @@ var nick_name   = $('#nick_name');
 /**
  *      禁止user留言
  */
-function ban_user()
+function ban_user(sHtml_Name)
 {
+        /*
+        $('.ban_user' + sHtml_Name).change(function() {
+                var $input = $( this );
+                console.log($input.prop( "checked"));
+                if ($input.prop( "checked"))
+                {
+                         var sSocket_Id = $('input:checkbox:checked[name="ban_user[' + sHtml_Name + ']"]').val();
 
+                        socket.emit('ban_user', sSocket_Id ,function(data){
+                                console.log(data);
+                        });
+                }
+                else
+                {
+                        var sSocket_Id = $('.ban_user' + sHtml_Name ).val();
+                        socket.emit('release_user', sSocket_Id);
+                }
+
+        }).change();
+        */
+        console.log($('.ban_user' + sHtml_Name).prop("checked"));
+        if ( $('.ban_user' + sHtml_Name).prop("checked") )
+        {
+                var sSocket_Id = $('input:checkbox:checked[name="ban_user[' + sHtml_Name + ']"]').val();
+                socket.emit('ban_user', sSocket_Id);
+        }
+        else
+        {
+                var sSocket_Id = $('.ban_user' + sHtml_Name ).val();
+                socket.emit('release_user', sSocket_Id);
+        }
 }
 
 /**
@@ -54,7 +84,8 @@ socket.on('usernames', function(data){
         {
                 if ( data.manager )
                 {
-                        html += data.nick_name[i] + '&nbsp<input type="checkbox" id="ban_user' + i + '" name="ban_user[]" value="' + data.socket_id[i] + '" onclick="ban_user()" ><br/>';
+                        // data.socket_id[i]
+                        html += data.nick_name[i] + '<input type="checkbox" id="ban_user['+ i +']" name="ban_user['+ i +']" value="' + data.socket_id[i] + '" onChange = "ban_user('+ i +')" class="ban_user' + i + '" ><br/>';
                 }
                 else
                 {

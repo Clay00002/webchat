@@ -22,7 +22,6 @@ function check_chat_roon_status()
 			$('#send_message').show();
 
 			socket.emit('check_login', $.getParamJquery("room_id"),  function(data){
-				console.log(data);
 				if (data)
 				{
 
@@ -70,6 +69,8 @@ $( document ).ready(function() {
   	}
 
   	check_chat_roon_status();
+
+
 });
 
 $(window).load(function() {
