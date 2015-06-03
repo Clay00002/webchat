@@ -3,13 +3,25 @@ var account = $('#account');
 var password = $('#password');
 var login_error = $('#login_error');
 
+function check_manager_login( sManager_Account, sManager_Password )
+{
+        var sRoom_Id = $.getParamJquery("room_id");
+        $.getJSON('/ajax/ajax_check_manager.php', {manager_account:sManager_Account, manager_password:sManager_Password, room_id:sRoom_Id}, function(json)
+        {
+                console.log(json);
+        });
+}
+
 /**
- *      登入判斷
+ *      管理員登入判斷
  */
 login.submit(function(e){
         e.preventDefault();
         if ( account.val().length > 0 && password.val().length > 0 )
         {
+                // 問後端是否有此帳號
+                check_manager_login(account.val(), password.val());
+
                 // 加入新的人
                 socket.emit('new user', account.val(), function(data){
                         if (data)
@@ -32,7 +44,7 @@ login.submit(function(e){
         }
         else
         {
-                login_error.html('請輸入暱稱');
+                login_error.html('請輸入正確帳號密碼');
         }
         nick_name.val('');
 });
@@ -58,6 +70,7 @@ function login_event()
                 //
 		$('#chat_content').hide();
                 $('.tabs').hide();
+                $('#manager').hide();
 		$('#login_panel').show();
 	}
 }

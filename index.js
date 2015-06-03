@@ -15,7 +15,13 @@ var aUser_Nick_Name	= [];	// user 暱稱
 var aRoom_Nick_Name	= [];   // 房間裡有哪些暱稱
 var aRoom_All_User	= [];   // 房間中全部的人
 
-var aBan_User		= []	// 被禁言的User
+var aBan_User		= [];	// 被禁言的User
+
+var aMessage		= {
+	nick_name: [],
+	msg:[],
+	display_time:[]
+}
 
 var connection 	= mysql.createConnection({
 	host	: 'localhost',
@@ -35,12 +41,17 @@ app.use('/css',express.static(path.join(__dirname, 'css')));
 
 app.get('/index', function(req, res){
 
-
 	sRoom_Id = req.query.room_id;
-
 
 	res.sendFile(__dirname + '/index.html');
 
+});
+
+app.get('/iframe', function(req, res){
+
+	sRoom_Id = req.query.room_id;
+
+	res.sendFile(__dirname + '/iframe.html');
 
 });
 
@@ -152,13 +163,44 @@ io.on('connection', function(socket){
 	}
 
 	/**
-	 * 	刪除陣列
+	 * 	刪除User 資料
 	 */
 	function delete_socket_connect(sSocket_Id)
 	{
 		delete aUser_Room_Id[sSocket_Id];
 		delete aRoom_Nick_Name[aUser_Nick_Name[sSocket_Id]];
 		delete aUser_Nick_Name[sSocket_Id];
+	}
+
+	/**
+	 * 	新增訊息
+	 */
+	function push_messages( sMsg, sNick_Name, nDisplay_Time)
+	{
+		if (aMessage.msg.length <= 40)
+		{
+			aMessage.msg.push({
+
+				msg: sMsg,
+
+			});
+
+			aMessage.nick_name.push({
+				nick_name: sNick_Name,
+			});
+
+			aMessage.display_time.push({
+				display_time: nDisplay_Time
+			});
+
+			console.log(aMessage);
+			aMessage.msg.shift();
+			console.log(aMessage);
+		}
+		else
+		{
+
+		}
 	}
 
 	/**
@@ -271,11 +313,14 @@ io.on('connection', function(socket){
 
 				io.to(aUser_Room_Id[socket.id]).emit('chat message', {msg: sMsg, nick_name: aUser_Nick_Name[socket.id], display_time: sDisplay_time});
 
+				// 紀錄資料
+				push_messages( sMsg, aUser_Nick_Name[socket.id], sDisplay_time);
+
 				var sData =
 				{
 					nick_name	: aUser_Nick_Name[socket.id],
 					content 	: sMsg,
-					createdate	: nUnix_Time
+					createdate	: nUnix_Time,
 				}
 
 				insert_into_sql(sData, 'chat_content');

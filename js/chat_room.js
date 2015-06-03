@@ -9,26 +9,7 @@ var nick_name   = $('#nick_name');
  */
 function ban_user(sHtml_Name)
 {
-        /*
-        $('.ban_user' + sHtml_Name).change(function() {
-                var $input = $( this );
-                console.log($input.prop( "checked"));
-                if ($input.prop( "checked"))
-                {
-                         var sSocket_Id = $('input:checkbox:checked[name="ban_user[' + sHtml_Name + ']"]').val();
 
-                        socket.emit('ban_user', sSocket_Id ,function(data){
-                                console.log(data);
-                        });
-                }
-                else
-                {
-                        var sSocket_Id = $('.ban_user' + sHtml_Name ).val();
-                        socket.emit('release_user', sSocket_Id);
-                }
-
-        }).change();
-        */
         console.log($('.ban_user' + sHtml_Name).prop("checked"));
         if ( $('.ban_user' + sHtml_Name).prop("checked") )
         {
@@ -42,6 +23,8 @@ function ban_user(sHtml_Name)
         }
 }
 
+
+
 /**
  *      登入暱稱
  */
@@ -49,6 +32,9 @@ nick_form.submit(function(e){
         e.preventDefault();
         if ( nick_name.val().length > 0 )
         {
+                // ajax
+
+
                 // 加入新的人
                 socket.emit('new user', nick_name.val(), function(data){
                         if (data)

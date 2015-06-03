@@ -1,5 +1,3 @@
-
-
 function getParam(name)
 {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -11,6 +9,7 @@ function getParam(name)
 function check_chat_roon_status()
 {
   	// 判斷是否開放聊天室
+  	// $.getParamJquery("room_id") => $_GET['room_id']
   	socket.emit('check_room_status', $.getParamJquery("room_id"), function(msg){
 		if (msg)
 		{
@@ -50,7 +49,6 @@ function check_chat_roon_status()
 
 
 // 聊天室狀態
-
 $( document ).ready(function() {
 
 	$.getParamJquery = function(name, url)
@@ -71,11 +69,6 @@ $( document ).ready(function() {
   	check_chat_roon_status();
 
 
-});
-
-$(window).load(function() {
-      $("#show_messages").animate({ scrollTop: $(document).height() }, "slow");
-      $('#show_messages').scrollTop(9999999);
 });
 
 window.setInterval(function() {
